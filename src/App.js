@@ -5,6 +5,7 @@ function App() {
   return (
     <div className="App">
      <h1>Scott's Shitty Calculator</h1>
+     <h2>Git test</h2>
      <div id="calculator-frame">
       <div id="display">
         5318008
