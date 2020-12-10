@@ -1,14 +1,23 @@
-
+import React from 'react';
 import './App.css';
 
-function App() {
+class App extends React.Component{
+  constructor(props) {
+      super(props);
+      this.state = {
+        displayText: 1234567890
+      };
+      
+    }
+  
+    render(){
   return (
     <div className="App">
      <h1>Scott's Shitty Calculator</h1>
      <h2>Git test</h2>
      <div id="calculator-frame">
       <div id="display">
-        5318008
+        {this.state.displayText}
       </div>
       <div id="clear" className="pad">
         AC
@@ -34,6 +43,7 @@ function App() {
      </div>
     </div>
   );
+}
 }
 
 export default App;
