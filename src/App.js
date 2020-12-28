@@ -5,30 +5,74 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayText: ""
+      displayText: 0,
+      workboard: "",
+      result: ""
     };
     this.handleClear = this.handleClear.bind(this);
     this.numberInput = this.numberInput.bind(this);
+    this.operatorInput = this.operatorInput.bind(this);
+    this.handleEquals = this.handleEquals.bind(this);
     
   }
 
   handleClear() {
     this.setState({
-      displayText: 0
+      displayText: 0,
+      workboard: ""
     });
+    let currentButton = document.getElementById("clear");
+  currentButton.style.boxShadow = "1px 1px 1px 0px rgba(0,0,0,0.76)";
+  currentButton.style.backgroundColor = "#ffa273";
+  setTimeout(function(){currentButton.style.boxShadow = ""; currentButton.style.backgroundColor = ""}, 300);
+    
+  }
+
+  handleEquals(){
+    let result = eval(this.state.workboard);
+    console.log(result);
+    this.setState({
+      displayText: result,
+      workboard: result
+    })
+  }
+
+  operatorInput(selectedOperator){
+    this.setState({
+      workboard: this.state.workboard + selectedOperator,
+      displayText: selectedOperator
+    })
   }
 
   numberInput(enteredValue) {
+    if(enteredValue === "."){
+      
+      let displayStr = this.state.displayText.toString();
+      
+      if(displayStr.indexOf('.') !== -1) {
+        alert("no double decimals allowed");
+        return;
+      }
+      else {
+        this.setState({
+          displayText:  this.state.displayText + "" + enteredValue,
+          workboard: this.state.workboard + enteredValue
+        });
+      }
+      
+    }
 
-    if (this.state.displayText[0] == 0  && this.state.displayText[1] !== "."){
+    else if (this.state.displayText === 0  && this.state.displayText[0] !== "."){
       this.setState({
-        displayText: this.state.displayText.substring(1) + "" + enteredValue
+        displayText: enteredValue,
+        workboard: this.state.workboard + enteredValue
       })
     }
 
     else{
     this.setState({
-      displayText:  this.state.displayText + "" + enteredValue
+      displayText:  this.state.displayText + "" + enteredValue,
+      workboard: this.state.workboard + enteredValue
     });
   }
   }
@@ -38,18 +82,22 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Scott's Shitty Calculator</h1>
-        <h2>Git test</h2>
+        
+        
         <div id="calculator-frame">
           <div id="display">
+          <div id="workboard">{this.state.workboard}</div>
             {this.state.displayText}
           </div>
           <div id="clear" className="pad" onClick={this.handleClear}>
             AC
       </div>
-          <div className="operator pad" id="divide">/</div>
-          <div className="operator pad" id="multiply">*</div>
-          <div className="operator pad" id="add">+</div>
-          <div className="operator pad" id="subtract">-</div>
+      <OperatorPad id="divide" operation="/" action={this.operatorInput}/>
+      <OperatorPad id="multiply" operation="*" action={this.operatorInput}/>
+      <OperatorPad id="add" operation="+" action={this.operatorInput}/>
+      <OperatorPad id="subtract" operation="-" action={this.operatorInput}/>
+          
+          
           <DigitPad number={9} id="nine" action={this.numberInput}/>
           <DigitPad number={8} id="eight" action={this.numberInput}/>
           <DigitPad number={7} id="seven" action={this.numberInput}/>
@@ -61,7 +109,9 @@ class App extends React.Component {
           <DigitPad number={1} id="one" action={this.numberInput}/>
           <DigitPad number={0} id="zero" action={this.numberInput}/>
           <DigitPad number={"."} id="decimal" action={this.numberInput}/>
-          <div className="pad" id="equals">=</div>
+
+          <EqualsPad id="equals" operation="=" action={this.handleEquals}/>
+         
 
 
         </div>
@@ -84,13 +134,68 @@ class DigitPad extends React.Component{
 
   handleClick(){
   this.props.action(this.props.number)
+  let currentButton = document.getElementById(this.props.id);
+  currentButton.style.boxShadow = "1px 1px 1px 0px rgba(0,0,0,0.76)";
+  currentButton.style.backgroundColor = "white";
+  setTimeout(function(){currentButton.style.boxShadow = ""; currentButton.style.backgroundColor = ""}, 300);
   }
 
   render() {
     return (
-      
       <div className="digit pad" id={this.props.id} onClick={this.handleClick}>{this.props.number}</div>
-      
     )
   }
+
+
+}
+
+class OperatorPad extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+    
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(){
+  this.props.action(this.props.operation)
+  let currentButton = document.getElementById(this.props.id);
+  currentButton.style.boxShadow = "1px 1px 1px 0px rgba(0,0,0,0.76)";
+  currentButton.style.backgroundColor = "#a1c5ff";
+  setTimeout(function(){currentButton.style.boxShadow = ""; currentButton.style.backgroundColor = ""}, 300);
+  }
+
+  render() {
+    return (
+      <div className="operator pad" id={this.props.id} onClick={this.handleClick}>{this.props.operation}</div>
+    )
+  }
+
+
+}
+class EqualsPad extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+    
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(){
+  this.props.action(this.props.operation);
+  let currentButton = document.getElementById(this.props.id);
+  currentButton.style.boxShadow = "1px 1px 1px 0px rgba(0,0,0,0.76)";
+  currentButton.style.backgroundColor = "#94ff82";
+  setTimeout(function(){currentButton.style.boxShadow = ""; currentButton.style.backgroundColor = ""}, 300);
+  }
+
+  render() {
+    return (
+      <div className="pad" id={this.props.id} onClick={this.handleClick}>{this.props.operation}</div>
+    )
+  }
+
+
 }
