@@ -32,15 +32,9 @@ class App extends React.Component {
 
   handleEquals() {
     //need to parse the workboard for double minus then add brackets e.g. eval(9-(-3)); OR... replace double minus -- with single positive +
-    // also will change workboard to show full equation when the operatorInput first function is working correctly 
+    
     let evalStr = this.state.workboard;
     console.log(evalStr);
-
-    //check for valid final input////////
-    // let numberRegex = /^\d$/;
-    // if(numberRegex.test(evalStr)){
-    //   return;
-    // }
 
     //parse for double minus
     let doubleMinusEvalRegex = /--/;
@@ -71,7 +65,7 @@ class App extends React.Component {
   }
 
   operatorInput(selectedOperator) {
-    ///////////////////////////////////////////////////////
+
     console.log(this.state.previousOperation);
     if(this.state.previousOperation === "equals"){
 
@@ -82,31 +76,10 @@ class App extends React.Component {
       },
       console.log("yep,yep " + this.state.workboard));
     }
-    // }
-    /////////////////////////////////////////////////////
+   
 
-    // console.log(this.state.workboard);
-    // console.log("previous operation was " + this.state.previousOperation)
-    // let numberRegex = /[0-9]$/;
-    // let exampleStrWithNumber = "g/h+i*jk1+";
     let operatorRegex = /\*$|\+$|\/$|\-$/;
     let doubleMinusRegex = /\-\-$/;
-    // if (operatorRegex.test(exampleStrWithNumber)){
-    //   console.log("yay");
-    // }
-    // else {
-    //   console.log("boo");
-    // }
-    //     let evalStr = this.state.workboard;
-    //     let tripleOperatorRegex = /[\+|\-|\/|\*]{3}/
-    // if (tripleOperatorRegex.test(evalStr)){
-    //   console.log("fuck")
-    // }
-
-    /////////
-
-    let addMultiplyDivideRegex = /[\+$|\*$|\/$]/;
-    let numberRegex = /[0-9]$/;
 
     if ((doubleMinusRegex.test(this.state.workboard)) && (selectedOperator === "-")) {
       this.setState({
@@ -115,6 +88,7 @@ class App extends React.Component {
         previousOperator: selectedOperator
       })
       console.log("is this pointless?")
+      //not pointless
     }
 
 
@@ -126,7 +100,7 @@ class App extends React.Component {
     ///if last character on workboard is an operator and the selected operation is NOT minus;
 
     else if ((operatorRegex.test(this.state.workboard[this.state.workboard.length - 1])) && (selectedOperator !== "-")) {
-       
+
       if ((this.state.workboard[this.state.workboard.length - 1] === "-") && (operatorRegex.test(this.state.workboard[this.state.workboard.length-2]))) {
         console.log("tada111!")
         this.setState({
@@ -134,7 +108,6 @@ class App extends React.Component {
           workboard: this.state.workboard.slice(0, -2) + selectedOperator,
           previousOperator: selectedOperator
         },
-          // testDoubleOperator(this.state.workboard)
           console.log(this.state.workboard)
         )
       }
@@ -148,7 +121,6 @@ class App extends React.Component {
           workboard: this.state.workboard.slice(0, this.state.workboard.length - 1) + selectedOperator,
           previousOperator: selectedOperator
         },
-          // testDoubleOperator(this.state.workboard)
           console.log(this.state.workboard)
         )
 
@@ -168,7 +140,6 @@ class App extends React.Component {
         workboard: this.state.workboard + selectedOperator,
         previousOperator: selectedOperator
       },
-        // testDoubleOperator(this.state.workboard)
       )
 
 
