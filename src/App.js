@@ -185,7 +185,7 @@ class App extends React.Component {
     render() {
       return (
         <div className="App">
-          <h1>Scott's Shitty Calculator</h1>
+          <h1>React Calculator</h1>
 
 
           <div id="calculator-frame">
